@@ -1,0 +1,17 @@
+com.meritnation.mnframework.application
+com.meritnation.mnframework.application.analytics
+com.meritnation.mnframework.application.constant
+com.meritnation.mnframework.application.controller
+com.meritnation.mnframework.application.model.data
+com.meritnation.mnframework.application.model.database
+com.meritnation.mnframework.application.model.listener
+com.meritnation.mnframework.application.model.manager
+com.meritnation.mnframework.application.model.parser
+com.meritnation.mnframework.application.utilities
+com.meritnation.mnframework.application.validator
+com.meritnation.mnframework.application.widgets
+com.meritnation.mnframework.modules.account.controller
+com.meritnation.mnframework.modules.account.model.data
+com.meritnation.mnframework.modules.account.model.listener
+com.meritnation.mnframework.modules.account.model.manager
+com.meritnation.mnframework.modules.account.model.parser
