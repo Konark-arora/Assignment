@@ -3,13 +3,19 @@ package com.meritnation.mnframework.modules.account.model.manager;
 import android.content.Context;
 import android.os.Build;
 
+import com.j256.ormlite.dao.Dao;
 import com.meritnation.mnframework.application.constant.RequestParamConstant;
 import com.meritnation.mnframework.application.constant.URLConstant;
 import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
 import com.meritnation.mnframework.application.model.manager.Manager;
 import com.meritnation.mnframework.application.model.parser.ApiParser;
 import com.meritnation.mnframework.application.utilities.Utils;
+import com.meritnation.mnframework.modules.account.model.data.LoginTableRow;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,16 +23,24 @@ import java.util.Map;
  * This is Account(Demo Mudule)Manager in the same way you can create your own module manger.
  * Created by Hukum Singh on 27/4/15.
  */
-public class AccountManager extends Manager {
+public class AccountManager extends Manager  {
 
 
     /**
-     * This is public constructor of AccountManger
+     * This is public constructor of AccountManger for web service purpose.
      * @param apiParser
      * @param onApiResponseListener
      */
     public AccountManager(ApiParser apiParser, OnAPIResponseListener onApiResponseListener) {
         super(apiParser, onApiResponseListener);
+    }
+
+    /**
+     * This is public constructor of AccountManager for Database purpose.
+     * @param dao
+     */
+    public AccountManager(Dao dao){
+            super(dao);
     }
 
     /**
@@ -66,5 +80,26 @@ public class AccountManager extends Manager {
         params.put(RequestParamConstant.API_PARAM_USER_PUSH_NOTIFICATION_STATUS, "" + 0);
 
         postData(URLConstant.LOGOUT_USER, null, params, requestTag);
+
+    }
+
+    public void writeUserDataInDatabse(JSONObject loginJsonObject) throws SQLException, JSONException {
+        LoginTableRow loginTableRow = new LoginTableRow();
+        loginTableRow.setUserId(loginJsonObject.getString("uid"));
+        loginTableRow.setBoard(loginJsonObject.getString("Board"));
+        loginTableRow.setGrade(loginJsonObject.getString("Grade"));
+        loginTableRow.setRedirectUrl(loginJsonObject.getString("redirectUrl"));
+        getDao().create(loginTableRow);
+    }
+
+
+    public String getUserInfoFromDatabase(String userId) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        LoginTableRow loginTableRow = (LoginTableRow) getDao().queryForId(userId);
+        sb.append("userId = ").append(loginTableRow.getUserId()+"\n");
+        sb.append("Board = ").append(loginTableRow.getBoard()+"\n");
+        sb.append("Grade = ").append(loginTableRow.getGrade()+"\n");
+        sb.append("RedirectUrl = ").append(loginTableRow.getRedirectUrl()+"\n");
+        return sb.toString();
     }
 }

@@ -12,7 +12,6 @@ import com.meritnation.mnframework.application.constant.AnalyticsConstant;
 import com.meritnation.mnframework.application.constant.RequestTagConstant;
 import com.meritnation.mnframework.application.controller.BaseActivity;
 import com.meritnation.mnframework.application.model.data.AppData;
-import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
 import com.meritnation.mnframework.application.validator.FormValidatorBuilder;
 import com.meritnation.mnframework.modules.account.model.data.LoginData;
 import com.meritnation.mnframework.modules.account.model.listener.OnLoginListener;
@@ -21,17 +20,21 @@ import com.meritnation.mnframework.modules.account.model.manager.AccountManager;
 import com.meritnation.mnframework.modules.account.model.parser.AccountParser;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 /**
  * This is demo activity
  */
-public class LoginActivity extends BaseActivity implements OnAPIResponseListener, OnLoginListener, OnLogoutListener {
+public class LoginActivity extends BaseActivity implements OnLoginListener, OnLogoutListener {
 
+    boolean isLogin = false;
     private TextView response;
     private Button button;
-    boolean isLogin = false;
     private String userId;
     private EditText editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,32 +45,48 @@ public class LoginActivity extends BaseActivity implements OnAPIResponseListener
         GAManager.sendScreenView(this, AnalyticsConstant.CATEGORY_LOGIN_SCREEN);
     }
 
-    public void getDataFromServer(View v){
-            if(FormValidatorBuilder.buildAppFormValidator(this).isMobileNumberValid(editText)){
-                GAManager.sendTrackingEvent(this, AnalyticsConstant.CATEGORY_LOGIN_SCREEN, AnalyticsConstant.ACTION_LOGIN, AnalyticsConstant.LABEL_LOGIN);
-            }
+    public void getDataFromServer(View v) {
+        if (FormValidatorBuilder.buildAppFormValidator(this).isMobileNumberValid(editText)) {
+            GAManager.sendTrackingEvent(this, AnalyticsConstant.CATEGORY_LOGIN_SCREEN, AnalyticsConstant.ACTION_LOGIN, AnalyticsConstant.LABEL_LOGIN);
+        }
         AccountManager accountManager = new AccountManager(new AccountParser(), this);
-        if(isLogin){
+        if (isLogin) {
             showProgressDialog("Logging out ...");
-            accountManager.logOut(RequestTagConstant.LOGOUT_REQUEST_TAG,this, userId);
-        }else{
+            accountManager.logOut(RequestTagConstant.LOGOUT_REQUEST_TAG, this, userId);
+        } else {
             showProgressDialog("Logging in ...");
             accountManager.login(RequestTagConstant.LOGIN_REQUEST_TAG, "hukum@bhavna.com", "1234");
         }
     }
 
-    private void handleLogoutResponse(AppData appData) {
-        if(appData.isSucceeded()){
-            onLogoutSuccess();
+    /**
+     * When we get HTTP 200 as response Code.
+     *
+     * @param appData
+     * @param requestTag
+     */
+    @Override
+    public void onAPIResponse(AppData appData, String requestTag) {
+        hideProgressDialog();
+        if (requestTag.equals(RequestTagConstant.LOGIN_REQUEST_TAG)) {
+            handleLoginResponse(appData);
+        } else if (requestTag.equals(RequestTagConstant.LOGOUT_REQUEST_TAG)) {
+            handleLogoutResponse(appData);
         }
     }
 
     private void handleLoginResponse(AppData appData) {
-        if(appData.isSucceeded()) {
+        if (appData.isSucceeded()) {
             LoginData loginData = (LoginData) appData;
             onLoginSuccess(loginData);
-        }else{
+        } else {
             onLoginFailed(appData.getErrorMessage());
+        }
+    }
+
+    private void handleLogoutResponse(AppData appData) {
+        if (appData.isSucceeded()) {
+            onLogoutSuccess();
         }
     }
 
@@ -77,6 +96,17 @@ public class LoginActivity extends BaseActivity implements OnAPIResponseListener
         button.setText("Log out");
         userId = loginData.getUserId();
         isLogin = true;
+        try {
+            JSONObject loginJsonObject = new JSONObject(loginData.getResponse());
+            AccountManager accountManager = new AccountManager(getHelper().getLoginTableDao());
+            accountManager.writeUserDataInDatabse(loginJsonObject);
+            showLongToast("user saved in Db");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showLongToast("user already exist in Db");
+        }
     }
 
     @Override
@@ -89,28 +119,14 @@ public class LoginActivity extends BaseActivity implements OnAPIResponseListener
         button.setText("Log in");
         response.setText("Logged Out");
         isLogin = false;
+        Bundle bundle = new Bundle();
+        bundle.putString("userId", userId);
+        openActivity(HelloNoBase.class, bundle);
     }
 
     @Override
     public void onLogoutFailed(String message) {
 
-    }
-
-
-    /**
-     * When we get HTTP 200 as response Code.
-     *
-     * @param appData
-     * @param requestTag
-     */
-    @Override
-    public void onAPIResponse(AppData appData, String requestTag) {
-        hideProgressDialog();
-        if(requestTag.equals(RequestTagConstant.LOGIN_REQUEST_TAG)){
-            handleLoginResponse(appData);
-        }else if(requestTag.equals(RequestTagConstant.LOGOUT_REQUEST_TAG)){
-            handleLogoutResponse(appData);
-        }
     }
 
     /**

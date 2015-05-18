@@ -6,6 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.meritnation.mnframework.application.model.data.AppData;
+import com.meritnation.mnframework.application.model.database.FrameworkORMDatabaseHelper;
+import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
+
+import org.json.JSONException;
+
 /**
  * This is BaseActivity for all activities of app. Here we have defined some common operation
  * we usually perform like showToast and showProgress Dialog with proper message and openActivity
@@ -13,7 +20,7 @@ import android.widget.Toast;
  * For example from ActionBarActivity to FragmentActivity or Activity to ActionBarActivity.
  * Created by Hukum Singh on 14/5/15.
  */
-public class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity implements OnAPIResponseListener {
     private ProgressDialog progressDialog;
 
     /**
@@ -25,6 +32,23 @@ public class BaseActivity extends ActionBarActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage(message);
         progressDialog.show();
+    }
+
+    /**
+     * You'll need this in your class to cache the helper in the class.
+     */
+    private FrameworkORMDatabaseHelper databaseHelper = null;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+		/*
+		 * You'll need this in your class to release the helper when done.
+		 */
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
     }
 
     /**
@@ -40,6 +64,16 @@ public class BaseActivity extends ActionBarActivity {
         } finally {
             progressDialog = null;
         }
+    }
+
+    /**
+     * You'll need this in your class to get the helper from the manager once per class.
+     */
+    protected FrameworkORMDatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(this, FrameworkORMDatabaseHelper.class);
+        }
+        return databaseHelper;
     }
 
     /**
@@ -86,4 +120,30 @@ public class BaseActivity extends ActionBarActivity {
         }
         startActivityForResult(intent, requestCode);
     }
+
+    /**
+     * When we get HTTP 200 as response Code.
+     *
+     * @param appData
+     * @param requestTag
+     */
+    @Override
+    public abstract void onAPIResponse(AppData appData, String requestTag);
+
+    /**
+     * When we get other then HTTP 200 as response Code.
+     *
+     * @param message
+     * @param requestTag
+     */
+    @Override
+    public abstract void onInternalServerError(String message, String requestTag);
+    /**
+     * When api get broken or response structure changes.
+     *
+     * @param e
+     * @param requestTag
+     */
+    @Override
+    public abstract void onAPIParsingException(JSONException e, String requestTag);
 }

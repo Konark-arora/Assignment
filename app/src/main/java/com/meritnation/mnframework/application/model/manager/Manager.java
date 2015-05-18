@@ -2,6 +2,7 @@ package com.meritnation.mnframework.application.model.manager;
 
 import android.content.Context;
 
+import com.j256.ormlite.dao.Dao;
 import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
 import com.meritnation.mnframework.application.model.parser.ApiParser;
@@ -20,15 +21,15 @@ public abstract class Manager implements WebServiceRules, SerializeAndDeserializ
 
     private WebService webService;
     private SerializeAndDeserializePOJO serializeAndDeserializePOJO;
-
+    private Dao dao;
     /**
      * We must use this constructor if we want to use WebService feature of manager.
      * @param apiParser
      * @param onApiResponseListener
      */
     public Manager(ApiParser apiParser, OnAPIResponseListener onApiResponseListener) {
+        this();
         webService = new WebService(apiParser, onApiResponseListener);
-        serializeAndDeserializePOJO = new SerializeAndDeserializePOJO();
     }
 
     /**
@@ -37,6 +38,16 @@ public abstract class Manager implements WebServiceRules, SerializeAndDeserializ
     public Manager(){
         serializeAndDeserializePOJO = new SerializeAndDeserializePOJO();
     }
+
+    /**
+     * We must use this constructor if we want to Database access Object.
+     * @param dao
+     */
+    public Manager(Dao dao) {
+        this();
+        this.dao = dao;
+    }
+
     /**
      * This method will make GET Request on WebAPI.
      * @param apiUrl
@@ -132,5 +143,12 @@ public abstract class Manager implements WebServiceRules, SerializeAndDeserializ
     @Override
     public boolean cleanSerializedFile(Context context, String serializedFileName) {
         return serializeAndDeserializePOJO.cleanSerializedFile(context,serializedFileName);
+    }
+
+    public Dao getDao(){
+        if(dao == null){
+            throw new RuntimeException("Dao object is not initialized you must initialise it Using super(Dao dao);");
+        }
+        return this.dao;
     }
 }
