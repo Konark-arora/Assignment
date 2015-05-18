@@ -35,7 +35,7 @@ public class HelloNoBase extends BaseActivity {
         super.onCreate(savedInstanceState);
         TextView tv = new TextView(this);
         String userId = getIntent().getStringExtra("userId");
-        doSampleDatabaseStuff(tv,userId);
+        doDatabaseOperation(tv, userId);
         setContentView(tv);
     }
 
@@ -43,7 +43,7 @@ public class HelloNoBase extends BaseActivity {
     /**
      * Do our sample database stuff as an example.
      */
-    private void doSampleDatabaseStuff(TextView tv, String userId) {
+    private void doDatabaseOperation(TextView tv, String userId) {
         try {
             AccountManager accountManager = new AccountManager(getHelper().getLoginTableDao());
             tv.setText(accountManager.getUserInfoFromDatabase(userId));
