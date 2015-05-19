@@ -15,7 +15,6 @@ import com.meritnation.mnframework.modules.account.model.data.LoginTableRow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +63,7 @@ public class AccountManager extends Manager  {
      * @param context
      * @param userId
      */
-    public void logOut(String requestTag ,Context context, String userId) throws IOException {
+    public void logOut(String requestTag ,Context context, String userId) {
         String deviceId = Utils.getDeviceId(context);
         Map<String, String> params = new HashMap<String, String>();
         params.put(RequestParamConstant.API_PARAM_USER_ID, userId);
