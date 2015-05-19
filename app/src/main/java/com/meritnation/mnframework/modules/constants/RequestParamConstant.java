@@ -1,4 +1,4 @@
-package com.meritnation.mnframework.application.constants;
+package com.meritnation.mnframework.modules.constants;
 
 /**
  * This constant class is related to API param constants.

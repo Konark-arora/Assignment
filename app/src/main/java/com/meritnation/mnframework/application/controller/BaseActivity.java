@@ -8,11 +8,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.meritnation.mnframework.application.analytics.GAManager;
-import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.application.model.database.FrameworkORMDatabaseHelper;
-import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
-
-import org.json.JSONException;
 
 /**
  * This is BaseActivity for all activities of app. Here we have defined some common operation
@@ -21,7 +17,7 @@ import org.json.JSONException;
  * For example from ActionBarActivity to FragmentActivity or Activity to ActionBarActivity.
  * Created by Hukum Singh on 14/5/15.
  */
-public abstract class BaseActivity extends ActionBarActivity implements OnAPIResponseListener {
+public abstract class BaseActivity extends ActionBarActivity {
     private ProgressDialog progressDialog;
 
     /**
@@ -130,29 +126,4 @@ public abstract class BaseActivity extends ActionBarActivity implements OnAPIRes
         GAManager.sendTrackingEvent(this, category, action, label);
     }
 
-    /**
-     * When we get HTTP 200 as response Code.
-     *
-     * @param appData
-     * @param requestTag
-     */
-    @Override
-    public abstract void onAPIResponse(AppData appData, String requestTag);
-
-    /**
-     * When we get other then HTTP 200 as response Code.
-     *
-     * @param message
-     * @param requestTag
-     */
-    @Override
-    public abstract void onInternalServerError(String message, String requestTag);
-    /**
-     * When api get broken or response structure changes.
-     *
-     * @param e
-     * @param requestTag
-     */
-    @Override
-    public abstract void onAPIParsingException(JSONException e, String requestTag);
 }

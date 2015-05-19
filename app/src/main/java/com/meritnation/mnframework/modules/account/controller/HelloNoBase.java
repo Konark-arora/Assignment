@@ -7,10 +7,7 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.meritnation.mnframework.application.controller.BaseActivity;
-import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.modules.account.model.manager.AccountManager;
-
-import org.json.JSONException;
 
 import java.sql.SQLException;
 
@@ -54,36 +51,4 @@ public class HelloNoBase extends BaseActivity {
         }
     }
 
-    /**
-     * When we get HTTP 200 as response Code.
-     *
-     * @param appData
-     * @param requestTag
-     */
-    @Override
-    public void onAPIResponse(AppData appData, String requestTag) {
-
-    }
-
-    /**
-     * When we get other then HTTP 200 as response Code.
-     *
-     * @param message
-     * @param requestTag
-     */
-    @Override
-    public void onInternalServerError(String message, String requestTag) {
-
-    }
-
-    /**
-     * When api get broken or response structure changes.
-     *
-     * @param e
-     * @param requestTag
-     */
-    @Override
-    public void onAPIParsingException(JSONException e, String requestTag) {
-
-    }
 }

@@ -7,16 +7,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meritnation.mnframework.R;
-import com.meritnation.mnframework.application.constants.AnalyticsConstant;
-import com.meritnation.mnframework.application.constants.RequestTagConstant;
 import com.meritnation.mnframework.application.controller.BaseActivity;
 import com.meritnation.mnframework.application.model.data.AppData;
+import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
 import com.meritnation.mnframework.application.validator.FormValidatorBuilder;
 import com.meritnation.mnframework.modules.account.model.data.LoginData;
 import com.meritnation.mnframework.modules.account.model.listener.OnLoginListener;
 import com.meritnation.mnframework.modules.account.model.listener.OnLogoutListener;
 import com.meritnation.mnframework.modules.account.model.manager.AccountManager;
 import com.meritnation.mnframework.modules.account.model.parser.AccountParser;
+import com.meritnation.mnframework.modules.constants.AnalyticsConstant;
+import com.meritnation.mnframework.modules.constants.RequestTagConstant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ import java.sql.SQLException;
 /**
  * This is demo activity
  */
-public class LoginActivity extends BaseActivity implements OnLoginListener, OnLogoutListener {
+public class LoginActivity extends BaseActivity implements OnLoginListener, OnLogoutListener, OnAPIResponseListener {
 
     boolean isLogin = false;
     private TextView response;
