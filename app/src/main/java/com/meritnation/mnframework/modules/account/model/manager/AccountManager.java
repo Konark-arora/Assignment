@@ -15,6 +15,7 @@ import com.meritnation.mnframework.modules.account.model.data.LoginTableRow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class AccountManager extends Manager  {
      * @param context
      * @param userId
      */
-    public void logOut(String requestTag ,Context context, String userId) {
+    public void logOut(String requestTag ,Context context, String userId) throws IOException {
         String deviceId = Utils.getDeviceId(context);
         Map<String, String> params = new HashMap<String, String>();
         params.put(RequestParamConstant.API_PARAM_USER_ID, userId);
@@ -81,6 +82,10 @@ public class AccountManager extends Manager  {
 
         postData(URLConstant.LOGOUT_USER, null, params, requestTag);
 
+
+        /*AppData ob = getDeSerializedBeanObject(context,"fileName");
+        saveSerializedBeanObject(context,"fileName",new AppData());
+        cleanSerializedFile(context,"fileName");*/
     }
 
     public void writeUserDataInDatabse(JSONObject loginJsonObject) throws SQLException, JSONException {
