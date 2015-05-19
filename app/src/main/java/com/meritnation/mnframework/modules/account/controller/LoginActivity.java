@@ -7,8 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meritnation.mnframework.R;
-import com.meritnation.mnframework.application.constant.AnalyticsConstant;
-import com.meritnation.mnframework.application.constant.RequestTagConstant;
+import com.meritnation.mnframework.application.constants.AnalyticsConstant;
+import com.meritnation.mnframework.application.constants.RequestTagConstant;
 import com.meritnation.mnframework.application.controller.BaseActivity;
 import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.application.validator.FormValidatorBuilder;

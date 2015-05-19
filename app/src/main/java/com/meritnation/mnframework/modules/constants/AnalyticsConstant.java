@@ -1,4 +1,4 @@
-package com.meritnation.mnframework.application.constant;
+package com.meritnation.mnframework.application.constants;
 
 /**
  * This is Constants class for Google Analytics constants like screen, category, action and label.

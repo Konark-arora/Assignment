@@ -1,7 +1,7 @@
 package com.meritnation.mnframework.modules.account.model.parser;
 
 
-import com.meritnation.mnframework.application.constant.RequestTagConstant;
+import com.meritnation.mnframework.application.constants.RequestTagConstant;
 import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.application.model.parser.ApiParser;
 import com.meritnation.mnframework.modules.account.model.data.LoginData;

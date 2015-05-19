@@ -1,4 +1,4 @@
-package com.meritnation.mnframework.application.constant;
+package com.meritnation.mnframework.application.constants;
 
 /**
  * This is constant class related to sharedPreference operations like sharedPreference file name

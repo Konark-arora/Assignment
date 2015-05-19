@@ -1,4 +1,4 @@
-package com.meritnation.mnframework.application.constant;
+package com.meritnation.mnframework.application.constants;
 
 /**
  * This Constant class is related to Database operations. like table name, column name, create table SQL etc.

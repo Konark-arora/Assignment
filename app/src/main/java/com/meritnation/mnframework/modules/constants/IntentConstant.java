@@ -1,4 +1,4 @@
-package com.meritnation.mnframework.application.constant;
+package com.meritnation.mnframework.application.constants;
 
 /**
  * This constant class is for intent and bundle key-constant used in whole app.

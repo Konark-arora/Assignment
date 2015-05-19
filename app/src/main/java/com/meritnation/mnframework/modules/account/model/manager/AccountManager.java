@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Build;
 
 import com.j256.ormlite.dao.Dao;
-import com.meritnation.mnframework.application.constant.RequestParamConstant;
-import com.meritnation.mnframework.application.constant.URLConstant;
+import com.meritnation.mnframework.application.constants.RequestParamConstant;
+import com.meritnation.mnframework.application.constants.URLConstant;
 import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
 import com.meritnation.mnframework.application.model.manager.Manager;
 import com.meritnation.mnframework.application.model.parser.ApiParser;
