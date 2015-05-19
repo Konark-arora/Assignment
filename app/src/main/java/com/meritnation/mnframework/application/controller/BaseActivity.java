@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.meritnation.mnframework.application.analytics.GAManager;
 import com.meritnation.mnframework.application.model.data.AppData;
 import com.meritnation.mnframework.application.model.database.FrameworkORMDatabaseHelper;
 import com.meritnation.mnframework.application.model.listener.OnAPIResponseListener;
@@ -119,6 +120,14 @@ public abstract class BaseActivity extends ActionBarActivity implements OnAPIRes
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
+    }
+
+    protected void sendScreenView(String screenName){
+        GAManager.sendScreenView(this, screenName);
+    }
+
+    protected void sendTrackingEvent(String category, String action, String label){
+        GAManager.sendTrackingEvent(this, category, action, label);
     }
 
     /**

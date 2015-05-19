@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meritnation.mnframework.R;
-import com.meritnation.mnframework.application.analytics.GAManager;
 import com.meritnation.mnframework.application.constant.AnalyticsConstant;
 import com.meritnation.mnframework.application.constant.RequestTagConstant;
 import com.meritnation.mnframework.application.controller.BaseActivity;
@@ -42,12 +41,12 @@ public class LoginActivity extends BaseActivity implements OnLoginListener, OnLo
         response = (TextView) findViewById(R.id.textView);
         button = (Button) findViewById(R.id.button);
         editText = (EditText) findViewById(R.id.editText);
-        GAManager.sendScreenView(this, AnalyticsConstant.CATEGORY_LOGIN_SCREEN);
+        sendScreenView(AnalyticsConstant.CATEGORY_LOGIN_SCREEN);
     }
 
     public void getDataFromServer(View v) {
         if (FormValidatorBuilder.buildAppFormValidator(this).isMobileNumberValid(editText)) {
-            GAManager.sendTrackingEvent(this, AnalyticsConstant.CATEGORY_LOGIN_SCREEN, AnalyticsConstant.ACTION_LOGIN, AnalyticsConstant.LABEL_LOGIN);
+            sendTrackingEvent(AnalyticsConstant.CATEGORY_LOGIN_SCREEN, AnalyticsConstant.ACTION_LOGIN, AnalyticsConstant.LABEL_LOGIN);
         }
         AccountManager accountManager = new AccountManager(new AccountParser(), this);
         if (isLogin) {
