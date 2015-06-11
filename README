@@ -1,20 +1,20 @@
 	 	 Application Architecture
 
 src
-├─ Application     (Core code related to the application resides here)
+	├─ Application     (Core code related to the application resides here)
                       ├─ analytics
                       ├─ controller (Base Controller resides here)
                       ├─ model (Base Model resides here)
-			├─ data
-                                    	├─ database (Used Sqllite DB connection Singleton design pattern)
-                                    	├─ listener
+				├─ data
+                                ├─ database (Used Sqllite DB connection Singleton design pattern)
+                                ├─ listener
 				├─ manager (Base class used for managing network connections)
 				├─ parser
                       ├─ utilities (Anything related with utility code)
-	          ├─ validator (Can be used for placing common validations used in the project)
-	          ├─ widgets
+	              ├─ validator (Can be used for placing common validations used in the project)
+	              ├─ widgets
 
-├─ Modules
+	├─ Modules
                      ├─ Constants (All URLConstants,JSONConstants resides here)
                      └─ projectModule
                                     ├─ controller (containing following classes here)
@@ -31,17 +31,16 @@ src
 Assignment Output 
 
 1. Truecaller10thCharacterRequest: 
-	For this point, returned the 10th Character of the html response received which with given url returns html response as <!DOCTYPE  so 10th character output is a space character“ ”
+For this point, returned the 10th Character of the html response received which with given url returns html response as <!DOCTYPE  so 10th character output is a space character“ ”
+
 2. TruecallerEvery10thCharacterRequest:
-	For this point, returned a sorted hashmap by key with index as key and character at the index as value  of the html response received. 
+For this point, returned a sorted hashmap by key with index as key and character at the index as value  of the html response received. 
+
 3. TruecallerWordCounterRequest:
-            For this point, returned the sorted hashmap with index as words and its count in response as value of the html response callback.       
+For this point, returned the sorted hashmap with index as words and its count in response as value of the html response callback.       
 
 
-
-
-
-Other Best Practices Used
+Other Best Practices Used ::
 
 Used Factory design pattern to get data callback for separate TextViews. 
 Factory determines which data structure to be used as per the problem statement and respond with the correct corresponding class which contains the data retrieval logic.
