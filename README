@@ -1,0 +1,54 @@
+	 	 Application Architecture
+
+src
+├─ Application     (Core code related to the application resides here)
+                      ├─ analytics
+                      ├─ controller (Base Controller resides here)
+                      ├─ model (Base Model resides here)
+			├─ data
+                                    	├─ database (Used Sqllite DB connection Singleton design pattern)
+                                    	├─ listener
+				├─ manager (Base class used for managing network connections)
+				├─ parser
+                      ├─ utilities (Anything related with utility code)
+	          ├─ validator (Can be used for placing common validations used in the project)
+	          ├─ widgets
+
+├─ Modules
+                     ├─ Constants (All URLConstants,JSONConstants resides here)
+                     └─ projectModule
+                                    ├─ controller (containing following classes here)
+				├─ Activities
+                                    	├─ fragments
+                                    	├─ adapters
+                                    ├─ models
+                                    	├─ data (POJO classes resides here)
+                                    	├─ listener (Callback listeners)
+                                    	├─ manager (Used as a model for making network call)
+				├─ parser (Can be used for response parsing)
+                  
+
+Assignment Output 
+
+1. Truecaller10thCharacterRequest: 
+	For this point, returned the 10th Character of the html response received which with given url returns html response as <!DOCTYPE  so 10th character output is a space character“ ”
+2. TruecallerEvery10thCharacterRequest:
+	For this point, returned a sorted hashmap by key with index as key and character at the index as value  of the html response received. 
+3. TruecallerWordCounterRequest:
+            For this point, returned the sorted hashmap with index as words and its count in response as value of the html response callback.       
+
+
+
+
+
+Other Best Practices Used
+
+Used Factory design pattern to get data callback for separate TextViews. 
+Factory determines which data structure to be used as per the problem statement and respond with the correct corresponding class which contains the data retrieval logic.
+Advantages of using it :: Extensibility (Open-Closed Principle) , Unit-Testability, Reuse
+
+All network related calls has been decoupled from modules and  made through WebService Class. Its being used for code extensiblity. (Network connection can be made here though Asynctask or Volley or Retrofit or OKHttp connection) 
+Used Google Volley library for its asynchronous network transactions and its inbuilt cache.
+
+Used styles, colors, dimen, strings.xml to make code clear and reusable.
+
